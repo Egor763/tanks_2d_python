@@ -1,6 +1,8 @@
 import pygame
 import grid_bg
 import variable
+import pickle
+import screen_update
 
 
 pygame.init()
@@ -17,25 +19,52 @@ pygame.display.set_caption("Танки")
 # создаем окно
 screen = pygame.display.set_mode(window_size)
 
-# получаем картинку и сохраняем в переменную
-bg = pygame.image.load("assets/images/bg-grass.jpg")
-screen.blit(bg, (0, 0))
 
-grid_bg.handle_grid(screen)
+screen_update.screen_update(screen)
+pygame.display.update()
+
+
+# загружаем сохраненный список и кладем в переменную bricks
+# bricks = pickle.load(open("save.p", "rb"))
+
+# # пробегаемся по списку с ключом coordinats (так как все координаты лежат именно там) и при
+# # каждой итерации получаем brick:  {'x': 660, 'y': 176}
+# for brick in bricks["coordinates"].values():
+#     # загружаем изображение по ключу image (не меняется)
+#     square = pygame.image.load(bricks["image"])
+#     # выводится на экран полученным координатам
+#     screen.blit(square, (brick["x"], brick["y"]))
+# # обновляем экран
+# pygame.display.update()
+
 # обновляем экран для отображения изменений
 pygame.display.flip()
-
 # показываем окно, пока пользователь не нажмет кнопку "Закрыть"
 while True:
     for event in pygame.event.get():
         # if event.type == pygame.QUIT:
         #     pg.quit()
         #     exit()
+        # if event.type == pygame.MOUSEBUTTONDOWN:
         if event.type == pygame.MOUSEBUTTONDOWN:
-            print("Мышь нажата:", event.button, "Координаты:", event.pos)
+            coord = grid_bg.check_cell(event.pos)
+            print("i: ", coord)
+
+            # вызываем функцию и возвращаем значения и кладем в переменную bricks
+            if not coord:
+                bricks = grid_bg.get_cell(event.pos, screen)
+                # print("brick_coord: ", bricks)
+            else:
+                bricks = grid_bg.del_cell(coord, screen)
+
+                print("brick_coord: ", bricks)
+                screen_update.screen_update(screen)
+                pygame.display.update()
+
         elif event.type == pygame.QUIT:
             pygame.quit()
             exit()
+
 # running = True
 
 # while running:

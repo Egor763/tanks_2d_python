@@ -1,9 +1,23 @@
+import math
 import pygame as pg
 import variable
+import pickle
+import screen_update
 
 
+w_cell = variable.w_cell
+h_cell = variable.h_cell
 W = variable.W
 H = variable.H
+
+
+# загружаем сохраненные файлы, кладем в переменную bricks
+brick_coord = pickle.load(open("save.p", "rb"))
+
+my_surface = pg.Surface((w_cell, h_cell))
+my_surface.fill((0, 0, 0, 0))
+
+# brick_coord = {"image": "assets/images/bricks_block.png", "coordinates": {}}
 
 
 def handle_grid(screen):
@@ -13,11 +27,69 @@ def handle_grid(screen):
 
     while y < H:
         pg.draw.line(screen, variable.green, (0, y), (W, y), 1)
-        y = y + variable.h_cell
+        y = y + h_cell
 
     while x < W:
         pg.draw.line(screen, variable.green, (x, 0), (x, H), 1)
-        x = x + variable.w_cell
+        x = x + w_cell
+
+
+def get_coordinats(position):
+    x = position[0]
+    y = position[1]
+
+    number_cell_x = math.ceil(x / w_cell)
+    x_pos = w_cell * (number_cell_x - 1)
+    number_cell_y = math.ceil(y / h_cell)
+    y_pos = h_cell * (number_cell_y - 1)
+    return (x_pos, y_pos)
+
+
+def get_cell(position, screen):
+    pos = get_coordinats(position)
+    print("pos: ", pos)
+
+    square_1 = pg.image.load("assets/images/bricks_block.png")
+    screen.blit(square_1, (pos[0], pos[1]))
+    pg.display.update()
+
+    # brick_coord["coordinates"].append({"x": pos[0], "y": pos[1]})
+    brick_coord["coordinates"][f"{pos[0]}-{pos[1]}"] = {
+        "x": pos[0],
+        "y": pos[1],
+    }
+
+    # сохраняем список
+    pickle.dump(brick_coord, open("save.p", "wb"))
+    return brick_coord
+
+
+def check_cell(position):
+    pos = get_coordinats(position)
+
+    x = pos[0]
+    y = pos[1]
+    coord = {"x": x, "y": y}
+    # print("coord: ", coord)
+
+    for brick in brick_coord["coordinates"].values():
+        if brick == coord:
+            # print(brick)
+            return coord
+        # print(brick)
+    # print(y)
+
+
+def del_cell(coord, screen):
+
+    for key, value in list(brick_coord["coordinates"].items()):
+        if brick_coord["coordinates"][key] == coord:
+            print("brick: ", key)
+            del brick_coord["coordinates"][key]
+            # выводится на экран полученным координатам
+        # сохраняем список
+    pickle.dump(brick_coord, open("save.p", "wb"))
+    return brick_coord
 
 
 # square_1 = pg.image.load("assets/images/bricks_block.png")
