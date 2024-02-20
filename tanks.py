@@ -48,18 +48,23 @@ while True:
         # if event.type == pygame.MOUSEBUTTONDOWN:
         if event.type == pygame.MOUSEBUTTONDOWN:
             coord = grid_bg.check_cell(event.pos)
-            print("i: ", coord)
+            print("i: ", event)
 
-            # вызываем функцию и возвращаем значения и кладем в переменную bricks
-            if not coord:
-                bricks = grid_bg.get_cell(event.pos, screen)
-                # print("brick_coord: ", bricks)
+            if event.pos[0] < 880:
+                # вызываем функцию и возвращаем значения и кладем в переменную bricks
+                if not coord:
+                    bricks = grid_bg.add_cell(event.pos, screen, link)
+                    # print("brick_coord: ", bricks)
+                else:
+                    bricks = grid_bg.del_cell(coord, screen)
+
+                    # print("brick_coord: ", bricks)
+                    screen_update.screen_update(screen)
+                    pygame.display.update()
+
             else:
-                bricks = grid_bg.del_cell(coord, screen)
-
-                print("brick_coord: ", bricks)
-                screen_update.screen_update(screen)
-                pygame.display.update()
+                link = grid_bg.get_link_image(event.pos)
+                print(link)
 
         elif event.type == pygame.QUIT:
             pygame.quit()

@@ -1,6 +1,10 @@
 import pygame as pg
 import pickle
 import grid_bg
+import variable
+
+
+elements = variable.elements
 
 
 def screen_update(screen):
@@ -8,23 +12,12 @@ def screen_update(screen):
     bg = pg.image.load("assets/images/bg-grass.jpg")
     screen.blit(bg, (0, 0))
 
-    elements = {
-        "headquarters": "assets/images/headquarters.png",
-        "bricks": "assets/images/bricks_block.png",
-        "concrete": "assets/images/concrete_block.png",
-        "bricks_block_left": "assets/images/bricks_block_left.png",
-        "bricks_block_right": "assets/images/bricks_block_right.png",
-    }
-
-    coord = 660
-
-    for element in elements.values():
+    for key, value in elements.items():
         # загружаем изображение по ключу image (не меняется)
-        square = pg.image.load(element)
+        square = pg.image.load(key)
 
         # выводится на экран полученным координатам
-        screen.blit(square, (880, coord))
-        coord = coord - 88
+        screen.blit(square, (value[0], value[1]))
 
     # headquarters = pg.image.load("assets/images/headquarters.png")
     # screen.blit(headquarters, (880, 660))

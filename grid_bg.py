@@ -2,13 +2,14 @@ import math
 import pygame as pg
 import variable
 import pickle
-import screen_update
 
 
 w_cell = variable.w_cell
 h_cell = variable.h_cell
 W = variable.W
 H = variable.H
+elements = variable.elements
+link_image = "assets/images/bricks_block.png"
 
 
 # загружаем сохраненные файлы, кладем в переменную bricks
@@ -45,11 +46,11 @@ def get_coordinats(position):
     return (x_pos, y_pos)
 
 
-def get_cell(position, screen):
+def add_cell(position, screen, link):
     pos = get_coordinats(position)
-    print("pos: ", pos)
+    # print("pos: ", pos)
 
-    square_1 = pg.image.load("assets/images/bricks_block.png")
+    square_1 = pg.image.load(link)
     screen.blit(square_1, (pos[0], pos[1]))
     pg.display.update()
 
@@ -76,7 +77,7 @@ def check_cell(position):
         if brick == coord:
             # print(brick)
             return coord
-        # print(brick)
+    # print(brick)
     # print(y)
 
 
@@ -90,6 +91,16 @@ def del_cell(coord, screen):
         # сохраняем список
     pickle.dump(brick_coord, open("save.p", "wb"))
     return brick_coord
+
+
+def get_link_image(coord):
+    link_coord = get_coordinats(coord)
+    print("link", link_coord)
+    for key, value in elements.items():
+        if value == link_coord:
+            link_image = key
+            print("link_image: ", link_image)
+            return key
 
 
 # square_1 = pg.image.load("assets/images/bricks_block.png")
