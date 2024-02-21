@@ -2,6 +2,7 @@ import math
 import pygame as pg
 import variable
 import pickle
+import screen_update
 
 
 w_cell = variable.w_cell
@@ -9,16 +10,21 @@ h_cell = variable.h_cell
 W = variable.W
 H = variable.H
 elements = variable.elements
-link_image = "assets/images/bricks_block.png"
+name_file = variable.name_file
 
 
+brick_coord = screen_update.get_data()
 # загружаем сохраненные файлы, кладем в переменную bricks
-brick_coord = pickle.load(open("save.p", "rb"))
+bricks = {}
+for key in elements.keys():
+    bricks[f"{key}"] = {}
+
+# brick_coord = pickle.load(open(f"{name_file}.p", "rb")) or bricks
 
 my_surface = pg.Surface((w_cell, h_cell))
 my_surface.fill((0, 0, 0, 0))
 
-# brick_coord = {"image": "assets/images/bricks_block.png", "coordinates": {}}
+link_block = "assets/images/bricks_block.png"
 
 
 def handle_grid(screen):
@@ -46,22 +52,20 @@ def get_coordinats(position):
     return (x_pos, y_pos)
 
 
-def add_cell(position, screen, link):
+def add_cell(position, screen):
     pos = get_coordinats(position)
-    # print("pos: ", pos)
 
-    square_1 = pg.image.load(link)
+    square_1 = pg.image.load(link_block)
     screen.blit(square_1, (pos[0], pos[1]))
     pg.display.update()
 
-    # brick_coord["coordinates"].append({"x": pos[0], "y": pos[1]})
-    brick_coord["coordinates"][f"{pos[0]}-{pos[1]}"] = {
+    brick_coord[f"{link_block}"][f"{pos[0]}-{pos[1]}"] = {
         "x": pos[0],
         "y": pos[1],
     }
 
     # сохраняем список
-    pickle.dump(brick_coord, open("save.p", "wb"))
+    pickle.dump(brick_coord, open(f"{name_file}.p", "wb"))
     return brick_coord
 
 
@@ -71,94 +75,26 @@ def check_cell(position):
     x = pos[0]
     y = pos[1]
     coord = {"x": x, "y": y}
-    # print("coord: ", coord)
-
-    for brick in brick_coord["coordinates"].values():
-        if brick == coord:
-            # print(brick)
+    for key, value in list(brick_coord[f"{link_block}"].items()):
+        if value == coord:
             return coord
-    # print(brick)
-    # print(y)
 
 
-def del_cell(coord, screen):
+def del_cell(coord):
 
-    for key, value in list(brick_coord["coordinates"].items()):
-        if brick_coord["coordinates"][key] == coord:
-            print("brick: ", key)
-            del brick_coord["coordinates"][key]
+    for key, value in list(brick_coord[f"{link_block}"].items()):
+        if value == coord:
+            del brick_coord[f"{link_block}"][f"{key}"]
             # выводится на экран полученным координатам
         # сохраняем список
-    pickle.dump(brick_coord, open("save.p", "wb"))
+    pickle.dump(brick_coord, open(f"{name_file}.p", "wb"))
     return brick_coord
 
 
 def get_link_image(coord):
+    global link_block
     link_coord = get_coordinats(coord)
-    print("link", link_coord)
     for key, value in elements.items():
         if value == link_coord:
-            link_image = key
-            print("link_image: ", link_image)
+            link_block = key
             return key
-
-
-# square_1 = pg.image.load("assets/images/bricks_block.png")
-# screen.blit(square_1, (88, 44))
-
-# square_2 = pg.image.load("assets/images/bricks_block.png")
-# screen.blit(square_2, (132, 44))
-
-# square_3 = pg.image.load("assets/images/bricks_block.png")
-# screen.blit(square_3, (44, 88))
-
-# square_4 = pg.image.load("assets/images/bricks_block.png")
-# screen.blit(square_4, (88, 88))
-
-# square_5 = pg.image.load("assets/images/bricks_block.png")
-# screen.blit(square_5, (132, 88))
-
-# square_6 = pg.image.load("assets/images/bricks_block.png")
-# screen.blit(square_6, (44, 176))
-
-# square_7 = pg.image.load("assets/images/bricks_block.png")
-# screen.blit(square_7, (88, 176))
-
-# square_8 = pg.image.load("assets/images/bricks_block.png")
-# screen.blit(square_8, (132, 176))
-
-# square_9 = pg.image.load("assets/images/bricks_block.png")
-# screen.blit(square_9, (44, 220))
-
-# square_10 = pg.image.load("assets/images/bricks_block.png")
-# screen.blit(square_10, (88, 220))
-
-# square_11 = pg.image.load("assets/images/bricks_block.png")
-# screen.blit(square_11, (132, 220))
-
-# square_12 = pg.image.load("assets/images/bricks_block.png")
-# screen.blit(square_12, (44, 308))
-
-# square_13 = pg.image.load("assets/images/bricks_block.png")
-# screen.blit(square_13, (88, 308))
-
-# square_14 = pg.image.load("assets/images/bricks_block.png")
-# screen.blit(square_14, (132, 308))
-
-# square_15 = pg.image.load("assets/images/bricks_block.png")
-# screen.blit(square_15, (44, 352))
-
-# square_16 = pg.image.load("assets/images/bricks_block.png")
-# screen.blit(square_16, (88, 352))
-
-# square_17 = pg.image.load("assets/images/bricks_block.png")
-# screen.blit(square_17, (132, 352))
-
-# square_18 = pg.image.load("assets/images/bricks_block.png")
-# screen.blit(square_18, (44, 396))
-
-# square_19 = pg.image.load("assets/images/bricks_block.png")
-# screen.blit(square_19, (88, 396))
-
-# square_20 = pg.image.load("assets/images/bricks_block.png")
-# screen.blit(square_20, (132, 396))

@@ -1,7 +1,6 @@
 import pygame
 import grid_bg
 import variable
-import pickle
 import screen_update
 
 
@@ -19,9 +18,9 @@ pygame.display.set_caption("Танки")
 # создаем окно
 screen = pygame.display.set_mode(window_size)
 
-
+# переазагружаем страницу
 screen_update.screen_update(screen)
-pygame.display.update()
+# pygame.display.update()
 
 
 # загружаем сохраненный список и кладем в переменную bricks
@@ -46,25 +45,24 @@ while True:
         #     pg.quit()
         #     exit()
         # if event.type == pygame.MOUSEBUTTONDOWN:
+        # добавляем слушатель при нажатии на клетку
         if event.type == pygame.MOUSEBUTTONDOWN:
-            coord = grid_bg.check_cell(event.pos)
-            print("i: ", event)
-
+            # добавляем кирпич
             if event.pos[0] < 880:
+                coord = grid_bg.check_cell(event.pos)
                 # вызываем функцию и возвращаем значения и кладем в переменную bricks
+                # вызываем функцию add_cell
                 if not coord:
-                    bricks = grid_bg.add_cell(event.pos, screen, link)
-                    # print("brick_coord: ", bricks)
+                    bricks = grid_bg.add_cell(event.pos, screen)
+                # вызываем функцию del_cell и обновляем экран
                 else:
-                    bricks = grid_bg.del_cell(coord, screen)
+                    bricks = grid_bg.del_cell(coord)
 
-                    # print("brick_coord: ", bricks)
                     screen_update.screen_update(screen)
                     pygame.display.update()
-
+            # вызываем функцию get_link_image
             else:
-                link = grid_bg.get_link_image(event.pos)
-                print(link)
+                grid_bg.get_link_image(event.pos)
 
         elif event.type == pygame.QUIT:
             pygame.quit()
