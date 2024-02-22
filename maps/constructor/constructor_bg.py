@@ -1,8 +1,8 @@
 import math
 import pygame as pg
-import variable
+import variable_constructor as variable
 import pickle
-import screen_update
+import screen_update as screen_update
 
 
 w_cell = variable.w_cell
@@ -24,7 +24,7 @@ for key in elements.keys():
 my_surface = pg.Surface((w_cell, h_cell))
 my_surface.fill((0, 0, 0, 0))
 
-link_block = "assets/images/bricks_block.png"
+link_block = "game/assets/images/blocks/bricks_block.png"
 
 
 def handle_grid(screen):
