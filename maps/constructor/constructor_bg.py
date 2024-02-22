@@ -11,9 +11,11 @@ W = variable.W
 H = variable.H
 elements = variable.elements
 name_file = variable.name_file
+bg = variable.bg
 
 
-brick_coord = screen_update.get_data()
+data_file = screen_update.get_data()
+brick_coord = data_file[1]
 # загружаем сохраненные файлы, кладем в переменную bricks
 bricks = {}
 for key in elements.keys():
@@ -52,6 +54,11 @@ def get_coordinats(position):
     return (x_pos, y_pos)
 
 
+def save_data(data):
+    data_full = (bg, data)
+    pickle.dump(data_full, open(f"{name_file}.p", "wb"))
+
+
 def add_cell(position, screen):
     pos = get_coordinats(position)
 
@@ -65,7 +72,9 @@ def add_cell(position, screen):
     }
 
     # сохраняем список
-    pickle.dump(brick_coord, open(f"{name_file}.p", "wb"))
+    save_data(brick_coord)
+
+    # pickle.dump(brick_coord, open(f"{name_file}.p", "wb"))
     return brick_coord
 
 
@@ -87,7 +96,8 @@ def del_cell(coord):
             del brick_coord[f"{link_block}"][f"{key}"]
             # выводится на экран полученным координатам
         # сохраняем список
-    pickle.dump(brick_coord, open(f"{name_file}.p", "wb"))
+    save_data(brick_coord)
+    # pickle.dump(brick_coord, open(f"{name_file}.p", "wb"))
     return brick_coord
 
 

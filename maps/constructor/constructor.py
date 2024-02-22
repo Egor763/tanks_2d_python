@@ -5,8 +5,8 @@ import screen_update as screen_update
 
 # ! чтобы создать новую карту:
 # * 1) создаем в папке maps файл с названием карты (map_1.p)
-# * 2) меняем в файле constructor/variable_constructor значение переменной name_file на имя карты
-# * 3) меняем в файле screen_update в строке кода 35 ссылку на фон который нам нужен
+# * 2) меняем в файле variable_constructor значение переменной name_file на имя карты
+# * 3) меняем в файле variable_constructor значение переменной bg ссылку на нужный фон
 
 pygame.init()
 

@@ -10,5 +10,7 @@ elements = {
     "game/assets/images/blocks/concrete_block.png": (880, 572),
 }
 
+
 # переменная для map_1
 name_file = "maps/map_1"
+bg = "game/assets/images/backgrounds/bg-grass.jpg"
