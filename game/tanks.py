@@ -1,10 +1,12 @@
-import pygame
-import grid_bg
-import game.variable as variable
-import screen_update
+import pygame as pg
+import variable
+import tanks_screen
+from manage_tanks import manage_my_tank
+
+# brick_coord = pickle.load(open(f"{name_file}.p", "rb"))
 
 
-pygame.init()
+pg.init()
 
 W = variable.W
 H = variable.H
@@ -13,38 +15,44 @@ H = variable.H
 window_size = (W, H)
 
 # задаем название окна
-pygame.display.set_caption("Танки")
+pg.display.set_caption("Танки")
 
 # создаем окно
-screen = pygame.display.set_mode(window_size)
+screen = pg.display.set_mode(window_size)
 
 # переазагружаем страницу
-screen_update.screen_update(screen)
+tanks_screen.screen_update(screen)
 
 
 # обновляем экран для отображения изменений
-pygame.display.flip()
+pg.display.flip()
 # показываем окно, пока пользователь не нажмет кнопку "Закрыть"
 while True:
-    for event in pygame.event.get():
+    for event in pg.event.get():
         # добавляем слушатель при нажатии на клетку
-        if event.type == pygame.MOUSEBUTTONDOWN:
+        if event.type == pg.KEYDOWN and event.key == pg.K_UP:
             # добавляем квадрат
-            if event.pos[0] < 880:
-                coord = grid_bg.check_cell(event.pos)
-                # вызываем функцию и возвращаем значения и кладем в переменную bricks
-                if not coord:
-                    bricks = grid_bg.add_cell(event.pos, screen)
-                # удаляем квадрат
-                else:
-                    bricks = grid_bg.del_cell(coord)
+            print("k_up")
+            manage_my_tank.turn_my_tank(screen, 0)
 
-                    screen_update.screen_update(screen)
-                    pygame.display.update()
-            # получаем ссылку на изображение при щелчке на квадрат
-            else:
-                grid_bg.get_link_image(event.pos)
+        elif event.type == pg.KEYDOWN and event.key == pg.K_RIGHT:
+            # добавляем квадрат
+            print("k_right")
+            manage_my_tank.turn_my_tank(screen, -90)
 
-        elif event.type == pygame.QUIT:
-            pygame.quit()
+        elif event.type == pg.KEYDOWN and event.key == pg.K_DOWN:
+            # добавляем квадрат
+            print("k_down")
+            manage_my_tank.turn_my_tank(screen, 180)
+
+        elif event.type == pg.KEYDOWN and event.key == pg.K_LEFT:
+            # добавляем квадрат
+            print("k_left")
+            manage_my_tank.turn_my_tank(screen, 90)
+
+        elif event.type == pg.KEYDOWN and event.key == pg.K_SPACE:
+            print("пробел")
+
+        elif event.type == pg.QUIT:
+            pg.quit()
             exit()
