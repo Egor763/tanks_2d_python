@@ -7,6 +7,11 @@ w_cell = variable.w_cell
 h_cell = variable.h_cell
 W = variable.W
 H = variable.H
+link_my_tank = variable.my_tank
+w_tank = variable.w_cell
+h_tank = variable.h_cell
+LEFT = variable.LEFT
+player_tank = variable.player_tank
 
 
 # функция которая получает данные из сохраненных файлов (map_1.p)
@@ -16,11 +21,8 @@ def get_data():
     return data_file
 
 
-# возвращаем полученный список либо из файла, либо из пустого словаря
-
-
-# функция обновления экрана
-def screen_update(screen):
+def draw_elements(screen):
+    global player_tank
     # получаем кортеж с данными
     data_file = get_data()
 
@@ -36,12 +38,42 @@ def screen_update(screen):
 
     # 1. в словаре bricks получаем ключи
     # 2. в словаре bricks по полученному ключу получаем значения
-    for key in bricks.keys():
-        for brick in bricks[f"{key}"].values():
-            # загружаем изображение по ключу
-            square = pg.image.load(key)
-            # выводится на экран полученным координатам
-            screen.blit(square, (brick["x"], brick["y"]))
+    for key, value in bricks.items():
+        if key == link_my_tank:
+            image_tank = pg.image.load(key)
+            for value in value.values():
+                player_tank = {
+                    "surface": pg.transform.scale(image_tank, (w_tank, h_tank)),
+                    "facing": LEFT,
+                    "size": w_tank,
+                    "x": value["x"],
+                    "y": value["y"],
+                }
+
+                player_tank["rect"] = pg.Rect(
+                    (
+                        player_tank["x"],
+                        player_tank["y"],
+                        player_tank["size"],
+                        player_tank["size"],
+                    )
+                )
+
+    return player_tank
+
+
+def handle_image_screen(screen):
+    # print("layerObj: ", player_tank)
+
+    data_file = get_data()
+
+    # получаем код из кортеджа по индексу 0
+    bg = pg.image.load(data_file[0])
+    screen.blit(bg, (0, 0))
+
+    handle_grid(screen)
+
+    screen.blit(player_tank["surface"], player_tank["rect"])
 
 
 def handle_grid(screen):
