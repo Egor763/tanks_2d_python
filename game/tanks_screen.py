@@ -69,7 +69,16 @@ def handle_image_screen(screen):
 
     # получаем код из кортеджа по индексу 0
     bg = pg.image.load(data_file[0])
+    bricks = data_file[1]
     screen.blit(bg, (0, 0))
+
+    for key in bricks.keys():
+        if not key == link_my_tank:
+            for brick in bricks[f"{key}"].values():
+                # загружаем изображение по ключу
+                square = pg.image.load(key)
+                # выводится на экран полученным координатам
+                screen.blit(square, (brick["x"], brick["y"]))
 
     handle_grid(screen)
 

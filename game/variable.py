@@ -7,6 +7,7 @@ h_cell = 44
 green = (0, 255, 0)
 LEFT = "right"
 player_tank = {}
+FPS = 60
 
 
 my_tank = "game/assets/images/tanks/tank_my.png"

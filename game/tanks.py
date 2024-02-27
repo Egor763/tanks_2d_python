@@ -13,6 +13,8 @@ pg.init()
 W = variable.W
 H = variable.H
 link_my_tank = variable.my_tank
+FPS = variable.FPS
+FPS_CLOCK = pg.time.Clock()
 
 
 window_size = (W, H)
@@ -33,6 +35,7 @@ pg.display.flip()
 # показываем окно, пока пользователь не нажмет кнопку "Закрыть"
 while True:
     # tanks_screen.screen_update(screen)
+    FPS_CLOCK.tick(FPS)
 
     tanks_screen.handle_image_screen(screen)
     for event in pg.event.get():
@@ -41,35 +44,35 @@ while True:
         if event.type == pg.KEYDOWN and event.key == pg.K_UP:
             # добавляем квадрат
             manage_my_tank.turn_my_tank(screen, 0, player_tank)
-            manage_my_tank.forward_go(event.key)
+            manage_my_tank.forward_go(event.key, player_tank)
 
         elif event.type == pg.KEYUP and event.key == pg.K_UP:
             # print("k_up up")
-            manage_my_tank.forward_stop(event.key)
+            manage_my_tank.forward_stop(event.key, player_tank)
 
         elif event.type == pg.KEYDOWN and event.key == pg.K_RIGHT:
             # добавляем квадрат
             manage_my_tank.turn_my_tank(screen, -90, player_tank)
-            manage_my_tank.forward_go(event.key)
+            manage_my_tank.forward_go(event.key, player_tank)
 
         elif event.type == pg.KEYUP and event.key == pg.K_RIGHT:
-            manage_my_tank.forward_stop(event.key)
+            manage_my_tank.forward_stop(event.key, player_tank)
 
         elif event.type == pg.KEYDOWN and event.key == pg.K_DOWN:
             # добавляем квадрат
             manage_my_tank.turn_my_tank(screen, 180, player_tank)
-            manage_my_tank.forward_go(event.key)
+            manage_my_tank.forward_go(event.key, player_tank)
 
         elif event.type == pg.KEYUP and event.key == pg.K_DOWN:
-            manage_my_tank.forward_stop(event.key)
+            manage_my_tank.forward_stop(event.key, player_tank)
 
         elif event.type == pg.KEYDOWN and event.key == pg.K_LEFT:
             # добавляем квадрат
             manage_my_tank.turn_my_tank(screen, 90, player_tank)
-            manage_my_tank.forward_go(event.key)
+            manage_my_tank.forward_go(event.key, player_tank)
 
         elif event.type == pg.KEYUP and event.key == pg.K_LEFT:
-            manage_my_tank.forward_stop(event.key)
+            manage_my_tank.forward_stop(event.key, player_tank)
 
         elif event.type == pg.KEYDOWN and event.key == pg.K_SPACE:
             print("пробел")
