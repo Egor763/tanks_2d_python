@@ -23,12 +23,6 @@ w_cell = variable.w_cell
 h_cell = variable.h_cell
 number_cell = 0
 
-data = tanks_screen.get_data()
-coord_tank_dict = data[1][link_my_tank]
-
-for value in coord_tank_dict.values():
-    coord_tank = value
-
 
 def turn_my_tank(screen, angle, player_tank):
     # для поворота получаем первоначальное изображение по захорткоженной ссылке
@@ -53,23 +47,19 @@ def turn_my_tank(screen, angle, player_tank):
 
 
 def forward_go(key, player_tank):
-    global number_cell
-    print("player_tank: ", player_tank["rect"])
-    y = player_tank["rect"].y
-    number_cell = math.ceil(y / h_cell)
-    print("go: ", number_cell)
-
     if key in key2mvmt:
         key2mvmt[key] = True
 
 
 def forward_stop(key, player_tank):
-    global number_cell
-    y = player_tank["rect"].y
-    number_cell = math.ceil(y / h_cell)
+
+    # global coord_tank
+    # y = player_tank["rect"].y
+    # number_cell = math.ceil(y / h_cell)
+    # coord_tank = number_cell * h_cell
+
     if key in key2mvmt:
         key2mvmt[key] = False
-    print("stop: ", number_cell)
 
 
 def move_image(player_tank):
@@ -77,6 +67,7 @@ def move_image(player_tank):
         if key2mvmt[k]:
             move_rect(player_tank["rect"], k, movement)
         # else:
+
         # print("stopped")
 
     pg.display.update()

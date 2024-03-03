@@ -13,6 +13,7 @@ pg.init()
 W = variable.W
 H = variable.H
 link_my_tank = variable.my_tank
+key2mvmt = variable.key2mvmt
 FPS = variable.FPS
 FPS_CLOCK = pg.time.Clock()
 
@@ -25,17 +26,21 @@ pg.display.set_caption("Танки")
 # создаем окно
 screen = pg.display.set_mode(window_size)
 
+key = ""
+# time_delay = 1000
+
 # переазагружаем страницу
 # tanks_screen.screen_update(screen)
 player_tank = tanks_screen.draw_elements(screen)
 
-
+end_time = pg.time.get_ticks() + 3000
 # обновляем экран для отображения изменений
 pg.display.flip()
 # показываем окно, пока пользователь не нажмет кнопку "Закрыть"
 while True:
     # tanks_screen.screen_update(screen)
     FPS_CLOCK.tick(FPS)
+    current_time = pg.time.get_ticks()
 
     tanks_screen.handle_image_screen(screen)
     for event in pg.event.get():
@@ -47,8 +52,9 @@ while True:
             manage_my_tank.forward_go(event.key, player_tank)
 
         elif event.type == pg.KEYUP and event.key == pg.K_UP:
-            # print("k_up up")
-            manage_my_tank.forward_stop(event.key, player_tank)
+            key = event.key
+            manage_my_tank.forward_stop(key, player_tank)
+            # end_time = pg.time.get_ticks() + time_delay
 
         elif event.type == pg.KEYDOWN and event.key == pg.K_RIGHT:
             # добавляем квадрат
@@ -56,7 +62,9 @@ while True:
             manage_my_tank.forward_go(event.key, player_tank)
 
         elif event.type == pg.KEYUP and event.key == pg.K_RIGHT:
-            manage_my_tank.forward_stop(event.key, player_tank)
+            key = event.key
+            # end_time = pg.time.get_ticks() + time_delay
+            manage_my_tank.forward_stop(key, player_tank)
 
         elif event.type == pg.KEYDOWN and event.key == pg.K_DOWN:
             # добавляем квадрат
@@ -64,7 +72,9 @@ while True:
             manage_my_tank.forward_go(event.key, player_tank)
 
         elif event.type == pg.KEYUP and event.key == pg.K_DOWN:
-            manage_my_tank.forward_stop(event.key, player_tank)
+            key = event.key
+            # end_time = pg.time.get_ticks() + time_delay
+            manage_my_tank.forward_stop(key, player_tank)
 
         elif event.type == pg.KEYDOWN and event.key == pg.K_LEFT:
             # добавляем квадрат
@@ -72,7 +82,9 @@ while True:
             manage_my_tank.forward_go(event.key, player_tank)
 
         elif event.type == pg.KEYUP and event.key == pg.K_LEFT:
-            manage_my_tank.forward_stop(event.key, player_tank)
+            key = event.key
+            # end_time = pg.time.get_ticks() + time_delay
+            manage_my_tank.forward_stop(key, player_tank)
 
         elif event.type == pg.KEYDOWN and event.key == pg.K_SPACE:
             print("пробел")
@@ -80,5 +92,14 @@ while True:
         elif event.type == pg.QUIT:
             pg.quit()
             exit()
+
+    # if current_time > end_time:
+    #     for k in key2mvmt.keys():
+    #         if k == key:
+    #             print("key: ", key2mvmt[key])
+
+    #             if key2mvmt[key]:
+
+    #                 manage_my_tank.forward_stop(key, player_tank)
 
     manage_my_tank.move_image(player_tank)
