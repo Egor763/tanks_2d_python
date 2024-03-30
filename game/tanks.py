@@ -116,6 +116,7 @@ while True:
         # ==== ПРОБЕЛ ===========================================
         elif event.type == pg.KEYDOWN and event.key == pg.K_SPACE:
             key_fire = True
+            tank_shot_sound.play()
 
         elif event.type == pg.KEYUP and event.key == pg.K_SPACE:
             key_fire = False
