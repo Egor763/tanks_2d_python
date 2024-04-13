@@ -1,0 +1,113 @@
+import pygame as pg
+from tanks_screen_classes import TanksScreen
+import variable
+from pygame.locals import *
+import math
+
+
+class ManageMyTank:
+    def __init__(self, player_tank, screen):
+        pg.mixer.init()
+        self.key2mvmt = variable.key2mvmt
+        self.link_my_tank = variable.my_tank
+        self.w_tank = variable.w_cell
+        self.h_tank = variable.h_cell
+        self.tank_x = 100
+        self.tank_y = 100
+        self.tank_move = 1
+        self.movement = 3
+        self.IMAGE = pg.image.load(self.link_my_tank)
+        self.coord_tank = 0
+        self.LEFT = "left"
+        self.deg_tanks = 0
+        self.W = variable.W
+        self.H = variable.H
+        self.w_cell = variable.w_cell
+        self.h_cell = variable.h_cell
+        self.number_cell = 0
+        self.key_move = True
+        self.key_turn = False
+        self.tank_sound = pg.mixer.Sound("game/assets/sounds/Sound/tankengine.ogg")
+        self.player_tank = player_tank
+        self.screen = screen
+
+    def turn_my_tank(self, angle):
+        self.image_tank = pg.image.load(self.link_my_tank)
+        self.rotated_image = pg.transform.rotate(self.image_tank, angle)
+        self.player_tank["surface"] = self.rotated_image
+
+        self.rect = self.player_tank["rect"]
+        print("self.rect: ", self.rect.x)
+
+        self.new_rect = self.rotated_image.get_rect(
+            center=self.image_tank.get_rect(topleft=(self.rect.x, self.rect.y)).center
+        ).topleft
+
+        self.screen.blit(self.rotated_image, self.new_rect)
+
+        return self.rotated_image, self.new_rect
+
+    def forward_go(self, key):
+        self.key_turn = False
+        if key in self.key2mvmt:
+            self.key2mvmt[key] = True
+            self.tank_sound.play()
+
+    def forward_stop(self, key):
+        self.tank_sound.stop()
+        self.key_turn = True
+        self.y = self.player_tank["rect"].y
+        self.x = self.player_tank["rect"].x
+
+        if key == K_UP:
+            self.key_move = True
+            self.number_cell = math.ceil(self.y / self.h_cell)
+            self.coord_tank = (self.number_cell - 1) * self.h_cell
+        elif key == K_DOWN:
+            self.key_move = True
+            self.number_cell = math.ceil(self.y / self.h_cell)
+            self.coord_tank = self.number_cell * self.h_cell
+        elif key == K_LEFT:
+            self.key_move = False
+            self.number_cell = math.ceil(self.x / self.w_cell)
+            self.coord_tank = (self.number_cell - 1) * self.w_cell
+        elif key == K_RIGHT:
+            self.key_move = False
+            self.number_cell = math.ceil(self.x / self.w_cell)
+            self.coord_tank = self.number_cell * self.w_cell
+
+    def move_image(self, state_key):
+
+        for k in self.key2mvmt.keys():
+
+            if self.key2mvmt[k]:
+                if self.key_move:
+                    self.rect_tank = self.player_tank["rect"].y
+                else:
+                    self.rect_tank = self.player_tank["rect"].x
+
+                if (
+                    self.coord_tank - self.movement < self.rect_tank
+                    and self.coord_tank + self.movement > self.rect_tank
+                    and self.key_turn
+                ):
+                    self.key2mvmt[k] = False
+
+                if not state_key:
+                    self.move_rect(self.player_tank["rect"], k, self.movement)
+                else:
+
+                    if self.key_turn:
+                        self.key2mvmt[k] = False
+
+        pg.display.update()
+
+    def move_rect(self, rect, key, distance):
+        if key == K_UP:
+            rect.y -= distance
+        elif key == K_DOWN:
+            rect.y += distance
+        elif key == K_LEFT:
+            rect.x -= distance
+        elif key == K_RIGHT:
+            rect.x += distance

@@ -27,26 +27,26 @@ key_turn = False
 tank_sound = pg.mixer.Sound("game/assets/sounds/Sound/tankengine.ogg")
 
 
-def turn_my_tank(screen, angle, player_tank):
-    # для поворота получаем первоначальное изображение по захорткоженной ссылке
-    image_tank = pg.image.load(link_my_tank)
-    # поварачиваем изображение на нужный угол
-    rotated_image = pg.transform.rotate(image_tank, angle)
-    # повернутое изображение сохраняем в словаре player_tank
-    player_tank["surface"] = rotated_image
+# def turn_my_tank(screen, angle, player_tank):
+#     # для поворота получаем первоначальное изображение по захорткоженной ссылке
+#     image_tank = pg.image.load(link_my_tank)
+#     # поварачиваем изображение на нужный угол
+#     rotated_image = pg.transform.rotate(image_tank, angle)
+#     # повернутое изображение сохраняем в словаре player_tank
+#     player_tank["surface"] = rotated_image
 
-    # получаем текущие координаты из словаря player_tank по ключу rect
-    rect = player_tank["rect"]
-    # координаты отцентрованного изображения
-    new_rect = (
-        rotated_image.get_rect(
-            center=image_tank.get_rect(topleft=(rect.x, rect.y)).center
-        ).topleft,
-    )
+#     # получаем текущие координаты из словаря player_tank по ключу rect
+#     rect = player_tank["rect"]
+#     # координаты отцентрованного изображения
+#     new_rect = (
+#         rotated_image.get_rect(
+#             center=image_tank.get_rect(topleft=(rect.x, rect.y)).center
+#         ).topleft,
+#     )
 
-    screen.blit(rotated_image, new_rect)
+#     screen.blit(rotated_image, new_rect)
 
-    return rotated_image, new_rect
+#     return rotated_image, new_rect
 
 
 def forward_go(key, player_tank):

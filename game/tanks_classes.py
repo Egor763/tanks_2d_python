@@ -1,7 +1,11 @@
 import pygame as pg
 import variable
+
 from tanks_screen_classes import TanksScreen
-from manage_tanks import manage_my_tank
+
+# from manage_tanks import self.my_tank
+
+from manage_my_tank_classes import ManageMyTank
 
 
 class Tanks:
@@ -22,15 +26,15 @@ class Tanks:
         self.window_size = (self.W, self.H)
 
         pg.display.set_caption("Танки")
+        self.screen = pg.display.set_mode(self.window_size)
 
         self.tanks_screen_update = TanksScreen()
+        self.player_tank = self.tanks_screen_update.draw_elements(self.screen)
 
-        self.screen = pg.display.set_mode(self.window_size)
+        self.my_tank = ManageMyTank(self.player_tank, self.screen)
 
         self.key = ""
         self.time_delay = 100
-
-        self.player_tank = self.tanks_screen_update.draw_elements(self.screen)
 
         self.end_time = 0
 
@@ -54,49 +58,49 @@ class Tanks:
                     if not self.key == event.key:
                         print("u")
                         self.end_time = pg.time.get_ticks() + self.time_delay
-                        manage_my_tank.turn_my_tank(self.screen, 0, self.player_tank)
+                        self.my_tank.turn_my_tank(0)
 
-                    manage_my_tank.forward_go(event.key, self.player_tank)
+                    self.my_tank.forward_go(event.key)
 
                 elif event.type == pg.KEYUP and event.key == pg.K_UP:
                     self.key = event.key
-                    manage_my_tank.forward_stop(self.key, self.player_tank)
+                    self.my_tank.forward_stop(self.key)
 
                 elif event.type == pg.KEYDOWN and event.key == pg.K_RIGHT:
                     if not self.key == event.key:
                         print("r")
                         self.end_time = pg.time.get_ticks() + self.time_delay
-                        manage_my_tank.turn_my_tank(self.screen, -90, self.player_tank)
+                        self.my_tank.turn_my_tank(-90)
 
-                    manage_my_tank.forward_go(event.key, self.player_tank)
+                    self.my_tank.forward_go(event.key)
 
                 elif event.type == pg.KEYUP and event.key == pg.K_RIGHT:
                     self.key = event.key
-                    manage_my_tank.forward_stop(self.key, self.player_tank)
+                    self.my_tank.forward_stop(self.key)
 
                 elif event.type == pg.KEYDOWN and event.key == pg.K_DOWN:
                     if not self.key == event.key:
                         print("d")
                         self.end_time = pg.time.get_ticks() + self.time_delay
-                        manage_my_tank.turn_my_tank(self.screen, 180, self.player_tank)
+                        self.my_tank.turn_my_tank(180)
 
-                    manage_my_tank.forward_go(event.key, self.player_tank)
+                    self.my_tank.forward_go(event.key)
 
                 elif event.type == pg.KEYUP and event.key == pg.K_DOWN:
                     self.key = event.key
-                    manage_my_tank.forward_stop(self.key, self.player_tank)
+                    self.my_tank.forward_stop(self.key)
 
                 elif event.type == pg.KEYDOWN and event.key == pg.K_LEFT:
                     if not self.key == event.key:
                         print("d")
                         self.end_time = pg.time.get_ticks() + self.time_delay
-                        manage_my_tank.turn_my_tank(self.screen, 90, self.player_tank)
+                        self.my_tank.turn_my_tank(90)
 
-                    manage_my_tank.forward_go(event.key, self.player_tank)
+                    self.my_tank.forward_go(event.key)
 
                 elif event.type == pg.KEYUP and event.key == pg.K_LEFT:
                     self.key = event.key
-                    manage_my_tank.forward_stop(self.key, self.player_tank)
+                    self.my_tank.forward_stop(self.key)
 
                 elif event.type == pg.KEYDOWN and event.key == pg.K_SPACE:
                     self.key_fire = True
@@ -118,7 +122,7 @@ class Tanks:
             else:
                 self.state_key = False
 
-            manage_my_tank.move_image(self.player_tank, self.state_key)
+            self.my_tank.move_image(self.state_key)
 
 
 if __name__ == "__main__":
