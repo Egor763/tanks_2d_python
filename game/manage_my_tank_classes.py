@@ -12,21 +12,21 @@ class ManageMyTank:
         self.link_my_tank = variable.my_tank
         self.w_tank = variable.w_cell
         self.h_tank = variable.h_cell
-        self.tank_x = 100
-        self.tank_y = 100
-        self.tank_move = 1
-        self.movement = 3
+        self.tank_x = variable.tank_x
+        self.tank_y = variable.tank_y
+        self.tank_move = variable.tank_move
+        self.movement = variable.movement
         self.IMAGE = pg.image.load(self.link_my_tank)
-        self.coord_tank = 0
+        self.coord_tank = variable.coord_tank
         self.LEFT = "left"
-        self.deg_tanks = 0
+        self.deg_tanks = variable.deg_tanks
         self.W = variable.W
         self.H = variable.H
         self.w_cell = variable.w_cell
         self.h_cell = variable.h_cell
-        self.number_cell = 0
-        self.key_move = True
-        self.key_turn = False
+        self.number_cell = variable.number_cell
+        self.key_move = variable.key_move
+        self.key_turn = variable.key_turn
         self.tank_sound = pg.mixer.Sound("game/assets/sounds/Sound/tankengine.ogg")
         self.player_tank = player_tank
         self.screen = screen
@@ -37,7 +37,6 @@ class ManageMyTank:
         self.player_tank["surface"] = self.rotated_image
 
         self.rect = self.player_tank["rect"]
-        print("self.rect: ", self.rect.x)
 
         self.new_rect = self.rotated_image.get_rect(
             center=self.image_tank.get_rect(topleft=(self.rect.x, self.rect.y)).center

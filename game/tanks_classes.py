@@ -135,6 +135,9 @@ class Tanks:
                     pg.quit()
                     exit()
 
+                elif event.type == pg.KEYDOWN and event.key == pg.K_ESCAPE:
+                    exit()
+
             # == отрисовка одного из нескольких выстрелов ======
             for fire in self.fires.sprites():
                 fire.draw_fire()
