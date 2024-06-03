@@ -40,6 +40,9 @@ class Tanks:
         self.player_tank = self.tanks_screen_update.draw_elements(self.screen)
         self.my_tank = ManageMyTank(self.player_tank, self.screen)
         self.fires = pg.sprite.Group()
+        self.coord_tank = variable.coord_tank
+        self.movement = variable.movement
+        self.rect = self.player_tank["rect"]
 
         pg.display.flip()
 
@@ -68,6 +71,7 @@ class Tanks:
                         self.my_tank.turn_my_tank(0)
 
                     self.my_tank.forward_go(event.key)
+
                 # -----------------------------------------------------------------
                 elif event.type == pg.KEYUP and event.key == pg.K_UP:
                     self.key = event.key
@@ -124,6 +128,10 @@ class Tanks:
                 # ---------------------------------------------------
                 elif event.type == pg.KEYUP and event.key == pg.K_SPACE:
                     self.key_fire = False
+
+                elif event.type == pg.KEYDOWN:
+                    if event.key == pg.K_UP and self.coord_tank > 0:
+                        self.rect -= self.movement
 
                 # == ВЫСТРЕЛ ТАНКА С ЗАДЕРЖКОЙ ========================
                 elif event.type == self.timer_event and self.key_fire:
