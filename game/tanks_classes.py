@@ -43,6 +43,7 @@ class Tanks:
         self.coord_tank = variable.coord_tank
         self.movement = variable.movement
         self.rect = self.player_tank["rect"]
+        self.key_move = variable.key_move
 
         pg.display.flip()
 
@@ -66,7 +67,6 @@ class Tanks:
                 # == КНОПКА ВВЕРХ ==========================================================
                 if event.type == pg.KEYDOWN and event.key == pg.K_UP:
                     if not self.key == event.key:
-                        print("u")
                         self.end_time = pg.time.get_ticks() + self.delay_move_tank
                         self.my_tank.turn_my_tank(0)
 
@@ -80,7 +80,6 @@ class Tanks:
                 # ==== КНОПКА ВПРАВО =========================================================
                 elif event.type == pg.KEYDOWN and event.key == pg.K_RIGHT:
                     if not self.key == event.key:
-                        print("r")
                         self.end_time = pg.time.get_ticks() + self.delay_move_tank
                         self.my_tank.turn_my_tank(-90)
 
@@ -92,8 +91,11 @@ class Tanks:
 
                 # ======== КНОПКА ВНИЗ ===============================================
                 elif event.type == pg.KEYDOWN and event.key == pg.K_DOWN:
+                    print("self.key: ", self.key)
+
                     if not self.key == event.key:
-                        print("d")
+                        print(event.key)
+
                         self.end_time = pg.time.get_ticks() + self.delay_move_tank
                         self.my_tank.turn_my_tank(180)
 
@@ -107,7 +109,6 @@ class Tanks:
                 # ====== КНОПКА ВЛЕВО ==========================================
                 elif event.type == pg.KEYDOWN and event.key == pg.K_LEFT:
                     if not self.key == event.key:
-                        print("d")
                         self.end_time = pg.time.get_ticks() + self.delay_move_tank
                         self.my_tank.turn_my_tank(90)
 
@@ -129,10 +130,6 @@ class Tanks:
                 elif event.type == pg.KEYUP and event.key == pg.K_SPACE:
                     self.key_fire = False
 
-                elif event.type == pg.KEYDOWN:
-                    if event.key == pg.K_UP and self.coord_tank > 0:
-                        self.rect -= self.movement
-
                 # == ВЫСТРЕЛ ТАНКА С ЗАДЕРЖКОЙ ========================
                 elif event.type == self.timer_event and self.key_fire:
                     self.tank_shot_sound.play()
@@ -146,18 +143,23 @@ class Tanks:
                 elif event.type == pg.KEYDOWN and event.key == pg.K_ESCAPE:
                     exit()
 
-            # == отрисовка одного из нескольких выстрелов ======
-            for fire in self.fires.sprites():
-                fire.draw_fire()
+                self.collide = self.rect.colliderect(self.rect)
+
+                # if self.collide:
+
+                #     # == отрисовка одного из нескольких выстрелов ======
+                #     for fire in self.fires.sprites():
+                #         fire.draw_fire()
 
             # == задержка времени поворота танка =========
             if self.current_time < self.end_time:
                 self.state_key = True
             else:
                 self.state_key = False
-
             # == движение танка ==============
+
             self.my_tank.move_image(self.state_key)
+            # print(self.player_tank["rect"].x)
 
 
 if __name__ == "__main__":

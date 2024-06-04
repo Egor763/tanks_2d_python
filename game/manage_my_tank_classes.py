@@ -44,13 +44,16 @@ class ManageMyTank:
 
         self.screen.blit(self.rotated_image, self.new_rect)
 
+        pg.display.update()
+
         return self.rotated_image, self.new_rect
 
     def forward_go(self, key):
         self.key_turn = False
         if key in self.key2mvmt:
-            self.key2mvmt[key] = True
-            self.tank_sound.play()
+            if self.player_tank["rect"].x >= 0:
+                self.key2mvmt[key] = True
+                self.tank_sound.play()
 
     def forward_stop(self, key):
         self.tank_sound.stop()
@@ -92,6 +95,9 @@ class ManageMyTank:
                 ):
                     self.key2mvmt[k] = False
 
+                # if self.player_tank["rect"].x > self.W - 44:
+                #     self.key2mvmt[k] = False
+                #     print("self.key2mvmt[k]: ", self.key2mvmt[k])
                 if not state_key:
                     self.move_rect(self.player_tank["rect"], k, self.movement)
                 else:
@@ -106,7 +112,7 @@ class ManageMyTank:
             rect.y -= distance
         elif key == K_DOWN:
             rect.y += distance
-        elif key == K_LEFT:
+        elif key == K_LEFT and self.player_tank["rect"].x > 4:
             rect.x -= distance
         elif key == K_RIGHT:
             rect.x += distance
