@@ -114,5 +114,5 @@ class ManageMyTank:
             rect.y += distance
         elif key == K_LEFT and self.player_tank["rect"].x > 4:
             rect.x -= distance
-        elif key == K_RIGHT:
+        elif key == K_RIGHT and self.player_tank["rect"].x < self.W - 44:
             rect.x += distance
