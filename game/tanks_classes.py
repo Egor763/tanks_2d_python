@@ -91,10 +91,8 @@ class Tanks:
 
                 # ======== КНОПКА ВНИЗ ===============================================
                 elif event.type == pg.KEYDOWN and event.key == pg.K_DOWN:
-                    print("self.key: ", self.key)
 
                     if not self.key == event.key:
-                        print(event.key)
 
                         self.end_time = pg.time.get_ticks() + self.delay_move_tank
                         self.my_tank.turn_my_tank(180)
@@ -159,6 +157,7 @@ class Tanks:
             # == движение танка ==============
 
             self.my_tank.move_image(self.state_key)
+
             # print(self.player_tank["rect"].x)
 
 

@@ -51,9 +51,10 @@ class ManageMyTank:
     def forward_go(self, key):
         self.key_turn = False
         if key in self.key2mvmt:
-            if self.player_tank["rect"].x >= 0:
-                self.key2mvmt[key] = True
-                self.tank_sound.play()
+            # if self.check_obstacle(key, True):
+            #     print("o")
+            self.key2mvmt[key] = True
+            self.tank_sound.play()
 
     def forward_stop(self, key):
         self.tank_sound.stop()
@@ -87,7 +88,7 @@ class ManageMyTank:
                     self.rect_tank = self.player_tank["rect"].y
                 else:
                     self.rect_tank = self.player_tank["rect"].x
-
+                # Проверка границы клетки
                 if (
                     self.coord_tank - self.movement < self.rect_tank
                     and self.coord_tank + self.movement > self.rect_tank
@@ -95,10 +96,8 @@ class ManageMyTank:
                 ):
                     self.key2mvmt[k] = False
 
-                # if self.player_tank["rect"].x > self.W - 44:
-                #     self.key2mvmt[k] = False
-                #     print("self.key2mvmt[k]: ", self.key2mvmt[k])
                 if not state_key:
+
                     self.move_rect(self.player_tank["rect"], k, self.movement)
                 else:
 
@@ -108,11 +107,43 @@ class ManageMyTank:
         pg.display.update()
 
     def move_rect(self, rect, key, distance):
-        if key == K_UP and self.player_tank["rect"].y > 4:
+        # print(self.check_obstacle(key))
+
+        if key == K_UP:
             rect.y -= distance
-        elif key == K_DOWN and self.player_tank["rect"].y < self.H - 44:
+        if self.check_obstacle(key, False):
+            self.key2mvmt[key] = False
+
+        if key == K_DOWN:
             rect.y += distance
-        elif key == K_LEFT and self.player_tank["rect"].x > 4:
+        if self.check_obstacle(key, False):
+            self.key2mvmt[key] = False
+
+        if key == K_LEFT:
             rect.x -= distance
-        elif key == K_RIGHT and self.player_tank["rect"].x < self.W - 44:
+        if self.check_obstacle(key, False):
+            self.key2mvmt[key] = False
+
+        if key == K_RIGHT:
             rect.x += distance
+        if self.check_obstacle(key, False):
+            self.key2mvmt[key] = False
+
+    def check_obstacle(self, button, key_start):
+        if key_start:
+            bound_lt = 2
+        else:
+            bound_lt = 4
+        print(bound_lt)
+        print('self.player_tank["rect"].: ', self.player_tank["rect"].y)
+
+        if button == K_UP and self.player_tank["rect"].y < bound_lt:
+            return True
+        if button == K_DOWN and self.player_tank["rect"].y > self.H - 44:
+            return True
+        if button == K_LEFT and self.player_tank["rect"].x < bound_lt:
+            return True
+        if button == K_RIGHT and self.player_tank["rect"].x > self.W - 44:
+            return True
+        else:
+            return False
