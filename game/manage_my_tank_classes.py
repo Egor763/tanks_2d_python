@@ -108,9 +108,9 @@ class ManageMyTank:
         pg.display.update()
 
     def move_rect(self, rect, key, distance):
-        if key == K_UP:
+        if key == K_UP and self.player_tank["rect"].y > 4:
             rect.y -= distance
-        elif key == K_DOWN:
+        elif key == K_DOWN and self.player_tank["rect"].y < self.H - 44:
             rect.y += distance
         elif key == K_LEFT and self.player_tank["rect"].x > 4:
             rect.x -= distance
