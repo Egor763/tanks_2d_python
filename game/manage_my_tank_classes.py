@@ -131,19 +131,51 @@ class ManageMyTank:
 
     def check_obstacle(self, button, key_start):
         if key_start:
+            self.move_tank(button, bound_lt)
             bound_lt = 2
         else:
             bound_lt = 4
-        print(bound_lt)
         print('self.player_tank["rect"].: ', self.player_tank["rect"].y)
 
         if button == K_UP and self.player_tank["rect"].y < bound_lt:
+            self.move_tank(button, bound_lt)
             return True
         if button == K_DOWN and self.player_tank["rect"].y > self.H - 44:
+            self.move_tank(button, bound_lt)
             return True
         if button == K_LEFT and self.player_tank["rect"].x < bound_lt:
+            self.move_tank(button, bound_lt)
             return True
         if button == K_RIGHT and self.player_tank["rect"].x > self.W - 44:
+            self.move_tank(button, bound_lt)
             return True
         else:
+            self.move_tank(button, bound_lt)
             return False
+
+    def move_tank(self, button, bound_lt):
+        if button == K_UP and self.player_tank["rect"].y > bound_lt:
+            bound_lt = 4
+            print("jkjl")
+            print(bound_lt)
+            return False
+        if button == K_DOWN and self.player_tank["rect"].y < self.H - 44:
+            bound_lt = 4
+            print("jkjl")
+            print(bound_lt)
+            return False
+        if button == K_LEFT and self.player_tank["rect"].x > bound_lt:
+            bound_lt = 4
+            print("jkjl")
+            print(bound_lt)
+            return False
+        if button == K_RIGHT and self.player_tank["rect"].x < self.W - 44:
+            bound_lt = 4
+            print("jkjl")
+            print(bound_lt)
+            return False
+        else:
+            bound_lt = 2
+            print(bound_lt)
+            print("парпара")
+            return True
