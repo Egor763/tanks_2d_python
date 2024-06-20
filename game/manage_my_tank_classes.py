@@ -51,10 +51,9 @@ class ManageMyTank:
     def forward_go(self, key):
         self.key_turn = False
         if key in self.key2mvmt:
-            # if self.check_obstacle(key, True):
-            #     print("o")
-            self.key2mvmt[key] = True
-            self.tank_sound.play()
+            if self.check_obstacle_start(key):
+                self.key2mvmt[key] = True
+                self.tank_sound.play()
 
     def forward_stop(self, key):
         self.tank_sound.stop()
@@ -111,71 +110,78 @@ class ManageMyTank:
 
         if key == K_UP:
             rect.y -= distance
-        if self.check_obstacle(key, False):
+        if self.check_obstacle_move(key):
             self.key2mvmt[key] = False
 
         if key == K_DOWN:
             rect.y += distance
-        if self.check_obstacle(key, False):
+        if self.check_obstacle_move(key):
             self.key2mvmt[key] = False
 
         if key == K_LEFT:
             rect.x -= distance
-        if self.check_obstacle(key, False):
+        if self.check_obstacle_move(key):
             self.key2mvmt[key] = False
 
         if key == K_RIGHT:
             rect.x += distance
-        if self.check_obstacle(key, False):
+        if self.check_obstacle_move(key):
             self.key2mvmt[key] = False
 
-    def check_obstacle(self, button, key_start):
-        if key_start:
-            self.move_tank(button, bound_lt)
-            bound_lt = 2
-        else:
-            bound_lt = 4
-        print('self.player_tank["rect"].: ', self.player_tank["rect"].y)
+    def check_obstacle_move(self, button):
 
-        if button == K_UP and self.player_tank["rect"].y < bound_lt:
-            self.move_tank(button, bound_lt)
+        if button == K_UP and self.player_tank["rect"].y < 4:
             return True
         if button == K_DOWN and self.player_tank["rect"].y > self.H - 44:
-            self.move_tank(button, bound_lt)
             return True
-        if button == K_LEFT and self.player_tank["rect"].x < bound_lt:
-            self.move_tank(button, bound_lt)
+        if button == K_LEFT and self.player_tank["rect"].x < 4:
             return True
         if button == K_RIGHT and self.player_tank["rect"].x > self.W - 44:
-            self.move_tank(button, bound_lt)
             return True
         else:
-            self.move_tank(button, bound_lt)
             return False
 
-    def move_tank(self, button, bound_lt):
-        if button == K_UP and self.player_tank["rect"].y > bound_lt:
-            bound_lt = 4
-            print("jkjl")
-            print(bound_lt)
-            return False
-        if button == K_DOWN and self.player_tank["rect"].y < self.H - 44:
-            bound_lt = 4
-            print("jkjl")
-            print(bound_lt)
-            return False
-        if button == K_LEFT and self.player_tank["rect"].x > bound_lt:
-            bound_lt = 4
-            print("jkjl")
-            print(bound_lt)
-            return False
-        if button == K_RIGHT and self.player_tank["rect"].x < self.W - 44:
-            bound_lt = 4
-            print("jkjl")
-            print(bound_lt)
-            return False
-        else:
-            bound_lt = 2
-            print(bound_lt)
-            print("парпара")
+    def check_obstacle_start(self, button):
+        print("self.H - 42: ", self.H - 42)
+        print("tank: ", self.player_tank["rect"].y)
+
+        if button == K_UP and self.player_tank["rect"].y > 4:
             return True
+
+        if button == K_DOWN and self.player_tank["rect"].y < self.H - 42:
+            return True
+        if button == K_LEFT and self.player_tank["rect"].x > 4:
+            return True
+        if button == K_RIGHT and self.player_tank["rect"].x < self.W - 44:
+            return True
+        else:
+            # self.move_tank(button, bound_lt)
+            print("N")
+            return False
+
+    # def move_tank(self, button, bound_lt):
+    #     if button == K_UP and self.player_tank["rect"].y > bound_lt:
+    #         bound_lt = 4
+    #         print("jkjl")
+    #         print(bound_lt)
+    #         return False
+    #     if button == K_DOWN and self.player_tank["rect"].y < self.H - 44:
+    #         bound_lt = 4
+    #         print("jkjl")
+    #         print(bound_lt)
+    #         return False
+    #     if button == K_LEFT and self.player_tank["rect"].x > bound_lt:
+    #         bound_lt = 4
+    #         print("jkjl")
+    #         print(bound_lt)
+    #         return False
+    #     if button == K_RIGHT and self.player_tank["rect"].x < self.W - 44:
+    #         bound_lt = 4
+    #         print("jkjl")
+    #         print(bound_lt)
+    #         return False
+    #     else:
+    #         bound_lt = 2
+    #         print(bound_lt)
+    #         print("парпара")
+    #         return True
