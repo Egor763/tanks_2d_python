@@ -3,6 +3,7 @@ from tanks_screen_classes import TanksScreen
 import variable
 from pygame.locals import *
 import math
+import time
 
 
 class ManageMyTank:
@@ -79,7 +80,6 @@ class ManageMyTank:
             self.coord_tank = self.number_cell * self.w_cell
 
     def move_image(self, state_key):
-
         for k in self.key2mvmt.keys():
 
             if self.key2mvmt[k]:
@@ -96,18 +96,14 @@ class ManageMyTank:
                     self.key2mvmt[k] = False
 
                 if not state_key:
-
                     self.move_rect(self.player_tank["rect"], k, self.movement)
                 else:
-
                     if self.key_turn:
                         self.key2mvmt[k] = False
 
         pg.display.update()
 
     def move_rect(self, rect, key, distance):
-        # print(self.check_obstacle(key))
-
         if key == K_UP:
             rect.y -= distance
         if self.check_obstacle_move(key):
@@ -142,9 +138,6 @@ class ManageMyTank:
             return False
 
     def check_obstacle_start(self, button):
-        print("self.H - 42: ", self.H - 42)
-        print("tank: ", self.player_tank["rect"].y)
-
         if button == K_UP and self.player_tank["rect"].y > 4:
             return True
 
@@ -155,33 +148,4 @@ class ManageMyTank:
         if button == K_RIGHT and self.player_tank["rect"].x < self.W - 44:
             return True
         else:
-            # self.move_tank(button, bound_lt)
-            print("N")
             return False
-
-    # def move_tank(self, button, bound_lt):
-    #     if button == K_UP and self.player_tank["rect"].y > bound_lt:
-    #         bound_lt = 4
-    #         print("jkjl")
-    #         print(bound_lt)
-    #         return False
-    #     if button == K_DOWN and self.player_tank["rect"].y < self.H - 44:
-    #         bound_lt = 4
-    #         print("jkjl")
-    #         print(bound_lt)
-    #         return False
-    #     if button == K_LEFT and self.player_tank["rect"].x > bound_lt:
-    #         bound_lt = 4
-    #         print("jkjl")
-    #         print(bound_lt)
-    #         return False
-    #     if button == K_RIGHT and self.player_tank["rect"].x < self.W - 44:
-    #         bound_lt = 4
-    #         print("jkjl")
-    #         print(bound_lt)
-    #         return False
-    #     else:
-    #         bound_lt = 2
-    #         print(bound_lt)
-    #         print("парпара")
-    #         return True
