@@ -31,6 +31,8 @@ class ManageMyTank:
         self.tank_sound = pg.mixer.Sound("game/assets/sounds/Sound/tankengine.ogg")
         self.player_tank = player_tank
         self.screen = screen
+        self.screen_update = TanksScreen()
+        # self.bricks = self.screen_update.data_file[1]
 
     def turn_my_tank(self, angle):
         self.image_tank = pg.image.load(self.link_my_tank)
@@ -111,7 +113,7 @@ class ManageMyTank:
 
         if key == K_DOWN:
             rect.y += distance
-        if self.check_obstacle_move(key):
+        if self.check_obstacle_move(key) and self.check_bricks(key):
             self.key2mvmt[key] = False
 
         if key == K_LEFT:
@@ -149,3 +151,13 @@ class ManageMyTank:
             return True
         else:
             return False
+
+    def check_bricks(self, button):
+        if button == K_DOWN and self.player_tank["rect"].y < self.H - 88:
+            return True
+        # if button == K_LEFT and self.player_tank["rect"].x > self.bricks - 4:
+        #     return True
+        # if button == K_RIGHT and self.player_tank["rect"].x < self.bricks - 42:
+        #     return True
+        # else:
+        #     return False
