@@ -32,7 +32,7 @@ class ManageMyTank:
         self.player_tank = player_tank
         self.screen = screen
         self.screen_update = TanksScreen()
-        # self.bricks = self.screen_update.data_file[1]
+        self.data_file = self.screen_update.get_data()
 
     def turn_my_tank(self, angle):
         self.image_tank = pg.image.load(self.link_my_tank)
@@ -111,10 +111,16 @@ class ManageMyTank:
         if self.check_obstacle_move(key):
             self.key2mvmt[key] = False
 
+        # if self.check_bricks(key):
+        #     self.key2mvmt[key] = False
+
         if key == K_DOWN:
             rect.y += distance
-        if self.check_obstacle_move(key) and self.check_bricks(key):
+        if self.check_obstacle_move(key):
             self.key2mvmt[key] = False
+
+        # if self.check_bricks(key):
+        #     self.key2mvmt[key] = False
 
         if key == K_LEFT:
             rect.x -= distance
@@ -152,12 +158,23 @@ class ManageMyTank:
         else:
             return False
 
-    def check_bricks(self, button):
-        if button == K_DOWN and self.player_tank["rect"].y < self.H - 88:
-            return True
-        # if button == K_LEFT and self.player_tank["rect"].x > self.bricks - 4:
-        #     return True
-        # if button == K_RIGHT and self.player_tank["rect"].x < self.bricks - 42:
-        #     return True
-        # else:
-        #     return False
+    # def check_bricks(self, button):
+    #     self.bricks = self.data_file[1]
+
+    #     for key in self.bricks.keys():
+    #         for brick in self.bricks[f"{key}"].values():
+    #             if button == K_DOWN and self.player_tank["rect"].x > brick["x"] - 44:
+    #                 print("yes")
+    #                 # return True
+
+    #             # if button == K_LEFT and self.player_tank["rect"].y < brick["x"] - 44:
+    #             #     print("yes")
+    #             #     return True
+
+    #             # if button == K_DOWN and self.player_tank["rect"].x > brick["x"] - 44:
+    #             #     print("yes")
+    #             #     return True
+
+    #             else:
+    #                 print("none")
+    #                 return False
