@@ -119,8 +119,8 @@ class ManageMyTank:
         if self.check_obstacle_move(key):
             self.key2mvmt[key] = False
 
-        # if self.check_bricks(key):
-        #     self.key2mvmt[key] = False
+        if self.check_bricks(key):
+            self.key2mvmt[key] = False
 
         if key == K_LEFT:
             rect.x -= distance
@@ -158,23 +158,23 @@ class ManageMyTank:
         else:
             return False
 
-    # def check_bricks(self, button):
-    #     self.bricks = self.data_file[1]
+    def check_bricks(self, button):
+        self.bricks = self.data_file[1]
 
-    #     for key in self.bricks.keys():
-    #         for brick in self.bricks[f"{key}"].values():
-    #             if button == K_DOWN and self.player_tank["rect"].x > brick["x"] - 44:
-    #                 print("yes")
-    #                 # return True
+        for key in self.bricks.keys():
+            for brick in self.bricks[f"{key}"].values():
+                if button == K_DOWN and self.player_tank["rect"].x > brick["x"] - 44:
+                    print("yes")
+                    return True
 
-    #             # if button == K_LEFT and self.player_tank["rect"].y < brick["x"] - 44:
-    #             #     print("yes")
-    #             #     return True
+                # if button == K_LEFT and self.player_tank["rect"].y < brick["x"] - 44:
+                #     print("yes")
+                #     return True
 
-    #             # if button == K_DOWN and self.player_tank["rect"].x > brick["x"] - 44:
-    #             #     print("yes")
-    #             #     return True
+                # if button == K_DOWN and self.player_tank["rect"].x > brick["x"] - 44:
+                #     print("yes")
+                #     return True
 
-    #             else:
-    #                 print("none")
-    #                 return False
+                else:
+                    print("none")
+                    return False
