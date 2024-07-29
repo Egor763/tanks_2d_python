@@ -58,6 +58,10 @@ class ManageMyTank:
                 self.key2mvmt[key] = True
                 self.tank_sound.play()
 
+            # if self.check_bricks_start(key):
+            #     self.key2mvmt[key] = False
+            #     self.tank_sound.stop()
+
     def forward_stop(self, key):
         self.tank_sound.stop()
         self.key_turn = True
@@ -111,16 +115,16 @@ class ManageMyTank:
         if self.check_obstacle_move(key):
             self.key2mvmt[key] = False
 
-        # if self.check_bricks(key):
-        #     self.key2mvmt[key] = False
+        if self.check_bricks(key):
+            self.key2mvmt[key] = False
 
         if key == K_DOWN:
             rect.y += distance
         if self.check_obstacle_move(key):
             self.key2mvmt[key] = False
 
-        if self.check_bricks(key):
-            self.key2mvmt[key] = False
+        # if self.check_bricks(key):
+        #     self.key2mvmt[key] = False
 
         if key == K_LEFT:
             rect.x -= distance
@@ -133,7 +137,6 @@ class ManageMyTank:
             self.key2mvmt[key] = False
 
     def check_obstacle_move(self, button):
-
         if button == K_UP and self.player_tank["rect"].y < 4:
             return True
         if button == K_DOWN and self.player_tank["rect"].y > self.H - 44:
@@ -164,7 +167,6 @@ class ManageMyTank:
         for key in self.bricks.keys():
             for brick in self.bricks[f"{key}"].values():
                 if button == K_DOWN and self.player_tank["rect"].x > brick["x"] - 44:
-                    print("yes")
                     return True
 
                 # if button == K_LEFT and self.player_tank["rect"].y < brick["x"] - 44:
@@ -176,5 +178,15 @@ class ManageMyTank:
                 #     return True
 
                 else:
-                    print("none")
+                    return False
+
+    def check_bricks_start(self, button):
+        self.bricks = self.data_file[1]
+
+        for key in self.bricks.keys():
+            for brick in self.bricks[f"{key}"].values():
+                if button == K_DOWN and self.player_tank["rect"].x < brick["x"] - 44:
+                    return True
+
+                else:
                     return False
